@@ -1,0 +1,248 @@
+SQL> select *
+  2  from tab;
+
+TNAME                          TABTYPE  CLUSTERID                               
+------------------------------ ------- ----------                               
+DEPT                           TABLE                                            
+EMP                            TABLE                                            
+BONUS                          TABLE                                            
+SALGRADE                       TABLE                                            
+STUD                           TABLE                                            
+BOOK                           TABLE                                            
+TRAINER                        TABLE                                            
+
+7 rows selected.
+
+SQL> INSERT INTO STUD VALUES(10001,'ADITYA',1678341243,'MALE',23,'ADITYASINGH01@123',10011);
+INSERT INTO STUD VALUES(10001,'ADITYA',1678341243,'MALE',23,'ADITYASINGH01@123',10011)
+            *
+ERROR at line 1:
+ORA-00913: too many values 
+
+
+SQL> DESC STUD
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                       NOT NULL NUMBER(4)
+ SNAME                                     NOT NULL VARCHAR2(30)
+ AGE                                                NUMBER(2)
+ SUBNAME                                   NOT NULL VARCHAR2(20)
+ PHONE_NO                                           NUMBER(10)
+
+SQL> INSERT INTO STUD VALUES(10001,'ADITYA',23,'MATHS',1678341243);
+INSERT INTO STUD VALUES(10001,'ADITYA',23,'MATHS',1678341243)
+                        *
+ERROR at line 1:
+ORA-01438: value larger than specified precision allowed for this column 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* INSERT INTO STUD VALUES(1001,'ADITYA',23,'MATHS',1678341243)
+SQL> /
+
+1 row created.
+
+SQL> INSERT INTO STUD VALUES(1002,'ADI',22,'PHY',1234567890);
+
+1 row created.
+
+SQL> INSERT INTO STUD VALUES(1003,'SHYAM',21,'PHY',1290345678);
+
+1 row created.
+
+SQL> INSERT INTO STUD VALUES(1004,'RADHA',20,'ECO',2343112798);
+
+1 row created.
+
+SQL> INSERT INTO STUD VALUES(1004,'SITA',25,'HISTORY',NULL);
+INSERT INTO STUD VALUES(1004,'SITA',25,'HISTORY',NULL)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.SYS_C005398) violated 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* INSERT INTO STUD VALUES(1005,'SITA',25,'HISTORY',NULL)
+SQL> /
+
+1 row created.
+
+SQL> INSERT INTO STUD(SID,AGE,SNAME) VALUES(1006,26,'FIR');
+INSERT INTO STUD(SID,AGE,SNAME) VALUES(1006,26,'FIR')
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."STUD"."SUBNAME") 
+
+
+SQL> INSERT INTO STUD(SID,SUBNAME,SNAME,AGE)VALUES(1007,26,'REET');
+INSERT INTO STUD(SID,SUBNAME,SNAME,AGE)VALUES(1007,26,'REET')
+                                       *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* INSERT INTO STUD(SID,SUBNAME,SNAME,AGE)VALUES(1007,'ENG','REET',27)
+SQL> /
+
+1 row created.
+
+SQL>  INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO,GENDER)VALUES(&SID,'&SNAME',&STUDENTAGE,&PHONE_NO,'&GENDER');
+Enter value for sid: 1008
+Enter value for sname: ADIT
+Enter value for studentage: 12
+Enter value for phone_no: 1234567878
+Enter value for gender: MALE
+old   1:  INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO,GENDER)VALUES(&SID,'&SNAME',&STUDENTAGE,&PHONE_NO,'&GENDER')
+new   1:  INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO,GENDER)VALUES(1008,'ADIT',12,1234567878,'MALE')
+ INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO,GENDER)VALUES(1008,'ADIT',12,1234567878,'MALE')
+                                         *
+ERROR at line 1:
+ORA-00904: "GENDER": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1*  INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO,GENDER)VALUES(&SID,'&SNAME',&STUDENTAGE,&PHONE_NO,'&GENDER')
+SQL> ED
+Wrote file afiedt.buf
+
+  1*  INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO)VALUES(&SID,'&SNAME',&STUDENTAGE,&PHONE_NO)
+SQL> /
+Enter value for sid: 1007
+Enter value for sname: ADITY
+Enter value for studentage: 23
+Enter value for phone_no: 1234566578
+old   1:  INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO)VALUES(&SID,'&SNAME',&STUDENTAGE,&PHONE_NO)
+new   1:  INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO)VALUES(1007,'ADITY',23,1234566578)
+ INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO)VALUES(1007,'ADITY',23,1234566578)
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("SCOTT"."STUD"."SUBNAME") 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1*  INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO,SUBNAME)VALUES(&SID,'&SNAME',&STUDENTAGE,&PHONE_NO,&SUBNAME)
+SQL> /
+Enter value for sid: 1007
+Enter value for sname: SDG
+Enter value for studentage: 24
+Enter value for phone_no: 0987654321
+Enter value for subname: EWS
+old   1:  INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO,SUBNAME)VALUES(&SID,'&SNAME',&STUDENTAGE,&PHONE_NO,&SUBNAME)
+new   1:  INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO,SUBNAME)VALUES(1007,'SDG',24,0987654321,EWS)
+ INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO,SUBNAME)VALUES(1007,'SDG',24,0987654321,EWS)
+                                                                                 *
+ERROR at line 1:
+ORA-00984: column not allowed here 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1*  INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO,SUBNAME)VALUES(&SID,'&SNAME',&STUDENTAGE,&PHONE_NO,'&SUBNAME')
+SQL> /
+Enter value for sid: 1009
+Enter value for sname: SDW
+Enter value for studentage: 25
+Enter value for phone_no: 2345678901
+Enter value for subname: ASK
+old   1:  INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO,SUBNAME)VALUES(&SID,'&SNAME',&STUDENTAGE,&PHONE_NO,'&SUBNAME')
+new   1:  INSERT INTO STUD(SID,SNAME,AGE,PHONE_NO,SUBNAME)VALUES(1009,'SDW',25,2345678901,'ASK')
+
+1 row created.
+
+SQL> INSERT INTO STUD VALUES(&SID,'&SNAME','&SUBNAME');
+Enter value for sid: 1003
+Enter value for sname: SJK
+Enter value for subname: RET
+old   1: INSERT INTO STUD VALUES(&SID,'&SNAME','&SUBNAME')
+new   1: INSERT INTO STUD VALUES(1003,'SJK','RET')
+INSERT INTO STUD VALUES(1003,'SJK','RET')
+            *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1* INSERT INTO STUD VALUES(&SID,'&SNAME','&SUBNAME')
+SQL> ED
+Wrote file afiedt.buf
+
+  1* INSERT INTO STUD VALUES(&SID,'&SNAME','&SUBNAME',&AGE,&PHONE_NO)
+SQL> /
+Enter value for sid: 1009
+Enter value for sname: SWQ
+Enter value for subname: WQE
+Enter value for age: 29
+Enter value for phone_no: 9856712345
+old   1: INSERT INTO STUD VALUES(&SID,'&SNAME','&SUBNAME',&AGE,&PHONE_NO)
+new   1: INSERT INTO STUD VALUES(1009,'SWQ','WQE',29,9856712345)
+INSERT INTO STUD VALUES(1009,'SWQ','WQE',29,9856712345)
+                                   *
+ERROR at line 1:
+ORA-01722: invalid number 
+
+
+SQL> DESC STUD
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                       NOT NULL NUMBER(4)
+ SNAME                                     NOT NULL VARCHAR2(30)
+ AGE                                                NUMBER(2)
+ SUBNAME                                   NOT NULL VARCHAR2(20)
+ PHONE_NO                                           NUMBER(10)
+
+SQL> INSERT INTO STUD VALUES(&SID,'&SNAME',&AGE,'&SUBNAME',&PHONE_NO);
+Enter value for sid: 1045
+Enter value for sname: ASD
+Enter value for age: 23
+Enter value for subname: ECO
+Enter value for phone_no: 8423453795
+old   1: INSERT INTO STUD VALUES(&SID,'&SNAME',&AGE,'&SUBNAME',&PHONE_NO)
+new   1: INSERT INTO STUD VALUES(1045,'ASD',23,'ECO',8423453795)
+
+1 row created.
+
+SQL> UDATE STUD
+SP2-0042: unknown command "UDATE STUD" - rest of line ignored.
+SQL> ED
+Wrote file afiedt.buf
+
+  1* INSERT INTO STUD VALUES(&SID,'&SNAME',&AGE,'&SUBNAME',&PHONE_NO)
+SQL> UPDATE STUD
+  2  SET SAL=4000
+  3  WHERE ENAME='BLAKE';
+WHERE ENAME='BLAKE'
+      *
+ERROR at line 3:
+ORA-00904: "ENAME": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  UPDATE EMP
+  2  SET SAL=4000
+  3* WHERE ENAME='BLAKE'
+SQL> /
+
+1 row updated.
+
+SQL> DELETE FROM STUD
+  2  WHERE SNAME='ADITYA';
+
+1 row deleted.
+
+SQL> spool off

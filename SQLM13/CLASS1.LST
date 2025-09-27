@@ -1,0 +1,302 @@
+SQL> --1)wqtd name,job,hiredate of smith--
+SQL> SELECT ENAME,JOB,HIREDATE
+  2  FROM EMP
+  3  WHERE ENAME="SMITH";
+WHERE ENAME="SMITH"
+            *
+ERROR at line 3:
+ORA-00904: "SMITH": invalid identifier 
+
+
+SQL> SELECT ENAME,JOB,HIREDATE
+  2  FROM EMP
+  3  WHERE ENAME = "SMITH";
+WHERE ENAME = "SMITH"
+              *
+ERROR at line 3:
+ORA-00904: "SMITH": invalid identifier 
+
+
+SQL> SELECT *
+  2  FROM EMP;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20                                                                                                                   
+      7499 ALLEN      SALESMAN        7698 20-FEB-81       1600        300         30                                                                                                                   
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                   
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20                                                                                                                   
+      7654 MARTIN     SALESMAN        7698 28-SEP-81       1250       1400         30                                                                                                                   
+      7698 BLAKE      MANAGER         7839 01-MAY-81       2850                    30                                                                                                                   
+      7782 CLARK      MANAGER         7839 09-JUN-81       2450                    10                                                                                                                   
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20                                                                                                                   
+      7839 KING       PRESIDENT            17-NOV-81       5000                    10                                                                                                                   
+      7844 TURNER     SALESMAN        7698 08-SEP-81       1500          0         30                                                                                                                   
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20                                                                                                                   
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30                                                                                                                   
+      7902 FORD       ANALYST         7566 03-DEC-81       3000                    20                                                                                                                   
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10                                                                                                                   
+
+14 rows selected.
+
+SQL> SELECT ENAME,JOB,HIREDATE
+  2  FROM EMP
+  3  WHERE ENAME = "SMITH";
+WHERE ENAME = "SMITH"
+              *
+ERROR at line 3:
+ORA-00904: "SMITH": invalid identifier 
+
+
+SQL> SELECT ENAME,JOB,HIREDATE
+  2  FROM EMP
+  3  WHERE ENMAE='SMITH';
+WHERE ENMAE='SMITH'
+      *
+ERROR at line 3:
+ORA-00904: "ENMAE": invalid identifier 
+
+
+SQL> SELECT ENAME,JOB,HIREDATE
+  2  FROM EMP
+  3  WHERE ENAME ='SMITH';
+
+ENAME      JOB       HIREDATE                                                                                                                                                                           
+---------- --------- ---------                                                                                                                                                                          
+SMITH      CLERK     17-DEC-80                                                                                                                                                                          
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE ENAME='ward';
+
+no rows selected
+
+SQL> select *
+  2  FROM EMP
+  3  WHERE ENAME='WARD';
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7521 WARD       SALESMAN        7698 22-FEB-81       1250        500         30                                                                                                                   
+
+SQL> SELECT ENAME,DEPTNO
+  2  FROM EMP
+  3  WHERE DEPTNO=20;
+
+ENAME          DEPTNO                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+SMITH              20                                                                                                                                                                                   
+JONES              20                                                                                                                                                                                   
+SCOTT              20                                                                                                                                                                                   
+ADAMS              20                                                                                                                                                                                   
+FORD               20                                                                                                                                                                                   
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL> 3000;
+
+ENAME                                                                                                                                                                                                   
+----------                                                                                                                                                                                              
+KING                                                                                                                                                                                                    
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE SAL<1000;
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7369 SMITH      CLERK           7902 17-DEC-80        800                    20                                                                                                                   
+      7900 JAMES      CLERK           7698 03-DEC-81        950                    30                                                                                                                   
+
+SQL> SELECT ENAME,HIREDATE
+  2  FROM EMP
+  3  WHERE HIREDATE='14-FEB-83';
+
+no rows selected
+
+SQL> SELECT *
+  2  FROM EMP
+  3  WHERE HIREDATE > '1-JAN-82';
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7788 SCOTT      ANALYST         7566 19-APR-87       3000                    20                                                                                                                   
+      7876 ADAMS      CLERK           7788 23-MAY-87       1100                    20                                                                                                                   
+      7934 MILLER     CLERK           7782 23-JAN-82       1300                    10                                                                                                                   
+
+SQL> select ENAME , HIREDATE
+  2  FROM EMP
+  3  WHERE HIREDATE='14-FEB-81';
+
+no rows selected
+
+SQL> CL SCR
+SQL> select 'Hi' || 'ename'
+  2  from emp;
+
+'HI'||'                                                                                                                                                                                                 
+-------                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+Hiename                                                                                                                                                                                                 
+
+14 rows selected.
+
+SQL> SELECT 'HI' || ENAME
+  2  FROM EMP;
+
+'HI'||ENAME                                                                                                                                                                                             
+------------                                                                                                                                                                                            
+HISMITH                                                                                                                                                                                                 
+HIALLEN                                                                                                                                                                                                 
+HIWARD                                                                                                                                                                                                  
+HIJONES                                                                                                                                                                                                 
+HIMARTIN                                                                                                                                                                                                
+HIBLAKE                                                                                                                                                                                                 
+HICLARK                                                                                                                                                                                                 
+HISCOTT                                                                                                                                                                                                 
+HIKING                                                                                                                                                                                                  
+HITURNER                                                                                                                                                                                                
+HIADAMS                                                                                                                                                                                                 
+HIJAMES                                                                                                                                                                                                 
+HIFORD                                                                                                                                                                                                  
+HIMILLER                                                                                                                                                                                                
+
+14 rows selected.
+
+SQL> SELECT 'HI '|| ENAME
+  2  FROM EMP;
+
+'HI'||ENAME                                                                                                                                                                                             
+-------------                                                                                                                                                                                           
+HI SMITH                                                                                                                                                                                                
+HI ALLEN                                                                                                                                                                                                
+HI WARD                                                                                                                                                                                                 
+HI JONES                                                                                                                                                                                                
+HI MARTIN                                                                                                                                                                                               
+HI BLAKE                                                                                                                                                                                                
+HI CLARK                                                                                                                                                                                                
+HI SCOTT                                                                                                                                                                                                
+HI KING                                                                                                                                                                                                 
+HI TURNER                                                                                                                                                                                               
+HI ADAMS                                                                                                                                                                                                
+HI JAMES                                                                                                                                                                                                
+HI FORD                                                                                                                                                                                                 
+HI MILLER                                                                                                                                                                                               
+
+14 rows selected.
+
+SQL> SELECT 'HI I AM '||ENAME
+  2  FROM EMP;
+
+'HIIAM'||ENAME                                                                                                                                                                                          
+------------------                                                                                                                                                                                      
+HI I AM SMITH                                                                                                                                                                                           
+HI I AM ALLEN                                                                                                                                                                                           
+HI I AM WARD                                                                                                                                                                                            
+HI I AM JONES                                                                                                                                                                                           
+HI I AM MARTIN                                                                                                                                                                                          
+HI I AM BLAKE                                                                                                                                                                                           
+HI I AM CLARK                                                                                                                                                                                           
+HI I AM SCOTT                                                                                                                                                                                           
+HI I AM KING                                                                                                                                                                                            
+HI I AM TURNER                                                                                                                                                                                          
+HI I AM ADAMS                                                                                                                                                                                           
+HI I AM JAMES                                                                                                                                                                                           
+HI I AM FORD                                                                                                                                                                                            
+HI I AM MILLER                                                                                                                                                                                          
+
+14 rows selected.
+
+SQL> SELECT 'HI I AM  '|| ENAME || 'MY SALARY IS 3000,COMMISSION IS 400,MY HIREDATE IS '14-FEB-83' AND JOB IS CLERK'
+  2  FROM EMP;
+SELECT 'HI I AM  '|| ENAME || 'MY SALARY IS 3000,COMMISSION IS 400,MY HIREDATE IS '14-FEB-83' AND JOB IS CLERK'
+                                                                                   *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL>  SELECT 'HI I AM  '|| ENAME || 'MY SALARY IS 3000,COMMISSION IS 400,MY HIREDATE IS '14-FEB-83'
+  2  FROM EMP;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT 'HI I AM '||ENAME || 'MY SALARY IS 3000 , COMMISSION IS 400,MY HIREDATE IS '14-FEB-83'AND JOB IS CLERK'
+  2  FROM EMP;
+SELECT 'HI I AM '||ENAME || 'MY SALARY IS 3000 , COMMISSION IS 400,MY HIREDATE IS '14-FEB-83'AND JOB IS CLERK'
+                                                                                   *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> SELECT 'HI I AM '|| ENAME||'MY SALARY IS 3000 COMMISSION IS 400 MY HIREDATE IS 14-FEB-83 AND JOB IS CLERK
+  2  FROM EMP;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> SELECT 'HI I AM '||ENAME||'MY SALARY IS'||SAL||',COMMISION IS ||COMM || 'MY HIREDATE IS'||HIREDATE||'AND JOB IS'||JOB
+  2  FROM EMP;
+ERROR:
+ORA-01756: quoted string not properly terminated 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT 'HI I AM '||ENAME||'MY SALARY IS'||SAL||',COMMISION IS' ||COMM || 'MY HIREDATE IS'||HIREDATE||'AND JOB IS'||JOB
+  2* FROM EMP
+SQL> /
+
+'HIIAM'||ENAME||'MYSALARYIS'||SAL||',COMMISIONIS'||COMM||'MYHIREDATEIS'||HIREDATE||'ANDJOBIS'||JOB                                                                                                      
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------                                   
+HI I AM SMITHMY SALARY IS800,COMMISION ISMY HIREDATE IS17-DEC-80AND JOB ISCLERK                                                                                                                         
+HI I AM ALLENMY SALARY IS1600,COMMISION IS300MY HIREDATE IS20-FEB-81AND JOB ISSALESMAN                                                                                                                  
+HI I AM WARDMY SALARY IS1250,COMMISION IS500MY HIREDATE IS22-FEB-81AND JOB ISSALESMAN                                                                                                                   
+HI I AM JONESMY SALARY IS2975,COMMISION ISMY HIREDATE IS02-APR-81AND JOB ISMANAGER                                                                                                                      
+HI I AM MARTINMY SALARY IS1250,COMMISION IS1400MY HIREDATE IS28-SEP-81AND JOB ISSALESMAN                                                                                                                
+HI I AM BLAKEMY SALARY IS2850,COMMISION ISMY HIREDATE IS01-MAY-81AND JOB ISMANAGER                                                                                                                      
+HI I AM CLARKMY SALARY IS2450,COMMISION ISMY HIREDATE IS09-JUN-81AND JOB ISMANAGER                                                                                                                      
+HI I AM SCOTTMY SALARY IS3000,COMMISION ISMY HIREDATE IS19-APR-87AND JOB ISANALYST                                                                                                                      
+HI I AM KINGMY SALARY IS5000,COMMISION ISMY HIREDATE IS17-NOV-81AND JOB ISPRESIDENT                                                                                                                     
+HI I AM TURNERMY SALARY IS1500,COMMISION IS0MY HIREDATE IS08-SEP-81AND JOB ISSALESMAN                                                                                                                   
+HI I AM ADAMSMY SALARY IS1100,COMMISION ISMY HIREDATE IS23-MAY-87AND JOB ISCLERK                                                                                                                        
+HI I AM JAMESMY SALARY IS950,COMMISION ISMY HIREDATE IS03-DEC-81AND JOB ISCLERK                                                                                                                         
+HI I AM FORDMY SALARY IS3000,COMMISION ISMY HIREDATE IS03-DEC-81AND JOB ISANALYST                                                                                                                       
+HI I AM MILLERMY SALARY IS1300,COMMISION ISMY HIREDATE IS23-JAN-82AND JOB ISCLERK                                                                                                                       
+
+14 rows selected.
+
+SQL> select *
+  2  from emp
+  3  where deptno=20 and job='MANAGER';
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20                                                                                                                   
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  select *
+  2  from emp
+  3* where deptno=20 and job='MANAGER'
+SQL> /
+
+     EMPNO ENAME      JOB              MGR HIREDATE         SAL       COMM     DEPTNO                                                                                                                   
+---------- ---------- --------- ---------- --------- ---------- ---------- ----------                                                                                                                   
+      7566 JONES      MANAGER         7839 02-APR-81       2975                    20                                                                                                                   
+
+SQL> SPOOL "C:\Users\Aditya singh\OneDrive\Desktop\SQLM13\CLASS2"

@@ -1,0 +1,679 @@
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  WHERE SAL>1500 ;
+
+    DEPTNO                                                                      
+----------                                                                      
+        30                                                                      
+        20                                                                      
+        30                                                                      
+        10                                                                      
+        20                                                                      
+        10                                                                      
+        20                                                                      
+
+7 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL>1500 AND JOB!='CLERK'
+  4* GROUP BY DEPTNO 
+SQL> /
+
+    DEPTNO   MAX(SAL)                                                           
+---------- ----------                                                           
+        30       2850                                                           
+        20       3000                                                           
+        10       5000                                                           
+
+SQL> --Q2--
+SQL> SELECT DEPTNO,MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL>1500 AND JOB!='CLERK'
+  4  GROUP BY DEPTNO DESC;
+GROUP BY DEPTNO DESC
+                *
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL>1500 AND JOB!='CLERK'
+  4* GROUP BY SAL DESC
+SQL> /
+GROUP BY SAL DESC
+             *
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL>1500 AND JOB!='CLERK' DESC
+  4* GROUP BY DEPTNO
+SQL> /
+WHERE SAL>1500 AND JOB!='CLERK' DESC
+                                *
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL>1500 AND JOB!='CLERK'
+  4* GROUP BY DEPTNO DESC
+SQL> /
+GROUP BY DEPTNO DESC
+                *
+ERROR at line 4:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL>1500 AND JOB!='CLERK'
+  4  GROUP BY DEPTNO
+  5* ORDER BY DESC
+SQL> /
+ORDER BY DESC
+         *
+ERROR at line 5:
+ORA-00936: missing expression 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO,MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL>1500 AND JOB!='CLERK'
+  4  GROUP BY DEPTNO
+  5* ORDER BY DEPTNO DESC
+SQL> /
+
+    DEPTNO   MAX(SAL)                                                           
+---------- ----------                                                           
+        30       2850                                                           
+        20       3000                                                           
+        10       5000                                                           
+
+SQL> SELECT DEPTNO
+  2  FROM EMP
+  3  ;
+
+    DEPTNO                                                                      
+----------                                                                      
+        20                                                                      
+        30                                                                      
+        30                                                                      
+        20                                                                      
+        30                                                                      
+        30                                                                      
+        10                                                                      
+        20                                                                      
+        10                                                                      
+        30                                                                      
+        20                                                                      
+
+    DEPTNO                                                                      
+----------                                                                      
+        30                                                                      
+        20                                                                      
+        10                                                                      
+
+14 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DEPTNO
+  2* FROM EMP
+  3  select HIREDATE
+  4  FROM EMP
+  5  WHERE HIREDATE>1
+  6  GROUP BY HIREDATE;
+select HIREDATE
+*
+ERROR at line 3:
+ORA-00933: SQL command not properly ended 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  select HIREDATE
+  2  FROM EMP
+  3  WHERE HIREDATE>1
+  4* GROUP BY HIREDATE
+  5  /
+WHERE HIREDATE>1
+              *
+ERROR at line 3:
+ORA-00932: inconsistent datatypes: expected DATE got NUMBER 
+
+
+SQL> /
+WHERE HIREDATE>1
+              *
+ERROR at line 3:
+ORA-00932: inconsistent datatypes: expected DATE got NUMBER 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  select HIREDATE
+  2  FROM EMP
+  3  WHERE DD-MM-YY>1
+  4* GROUP BY HIREDATE
+SQL> /
+WHERE DD-MM-YY>1
+            *
+ERROR at line 3:
+ORA-00904: "YY": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  select HIREDATE
+  2  FROM EMP
+  3  WHERE "DD-MM-YY">1
+  4* GROUP BY HIREDATE
+SQL> /
+WHERE "DD-MM-YY">1
+      *
+ERROR at line 3:
+ORA-00904: "DD-MM-YY": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  select HIREDATE
+  2  FROM EMP
+  3  GROUP BY HIREDATE
+  4* HAVING COUNT(*)>1
+SQL> /
+
+HIREDATE                                                                        
+---------                                                                       
+03-DEC-81                                                                       
+
+SQL>  SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL>(SELECT ENAME
+  4             FROM EMP
+  5             WHERE ENAME='ADAMS');
+WHERE SAL>(SELECT ENAME
+                  *
+ERROR at line 3:
+ORA-01722: invalid number 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1   SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL>(SELECT SAL
+  4             FROM EMP
+  5*            WHERE ENAME='ADAMS')
+SQL> /
+
+ENAME                                                                           
+----------                                                                      
+ALLEN                                                                           
+WARD                                                                            
+JONES                                                                           
+MARTIN                                                                          
+BLAKE                                                                           
+CLARK                                                                           
+SCOTT                                                                           
+KING                                                                            
+TURNER                                                                          
+FORD                                                                            
+MILLER                                                                          
+
+11 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1   SELECT ENAME,SAL
+  2  FROM EMP
+  3  WHERE SAL>(SELECT SAL
+  4             FROM EMP
+  5*            WHERE ENAME='ADAMS')
+SQL> /
+
+ENAME             SAL                                                           
+---------- ----------                                                           
+ALLEN            1600                                                           
+WARD             1250                                                           
+JONES            2975                                                           
+MARTIN           1250                                                           
+BLAKE            2850                                                           
+CLARK            2450                                                           
+SCOTT            3000                                                           
+KING             5000                                                           
+TURNER           1500                                                           
+FORD             3000                                                           
+MILLER           1300                                                           
+
+11 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1   SELECT ENAME,SAL
+  2  FROM EMP
+  3  WHERE SAL>=(SELECT SAL
+  4             FROM EMP
+  5*            WHERE ENAME='ADAMS')
+SQL> /
+
+ENAME             SAL                                                           
+---------- ----------                                                           
+ALLEN            1600                                                           
+WARD             1250                                                           
+JONES            2975                                                           
+MARTIN           1250                                                           
+BLAKE            2850                                                           
+CLARK            2450                                                           
+SCOTT            3000                                                           
+KING             5000                                                           
+TURNER           1500                                                           
+ADAMS            1100                                                           
+FORD             3000                                                           
+
+ENAME             SAL                                                           
+---------- ----------                                                           
+MILLER           1300                                                           
+
+12 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1   SELECT ENAME,SAL
+  2  FROM EMP
+  3  WHERE SAL>(SELECT SAL
+  4             FROM EMP
+  5*            WHERE ENAME='ADAMS')
+SQL> /
+
+ENAME             SAL                                                           
+---------- ----------                                                           
+ALLEN            1600                                                           
+WARD             1250                                                           
+JONES            2975                                                           
+MARTIN           1250                                                           
+BLAKE            2850                                                           
+CLARK            2450                                                           
+SCOTT            3000                                                           
+KING             5000                                                           
+TURNER           1500                                                           
+FORD             3000                                                           
+MILLER           1300                                                           
+
+11 rows selected.
+
+SQL> SELECT ENAME,SAL
+  2  FROM EMP
+  3  WHERE SAL<(SELECT SAL
+  4             FROM EMP
+  5             WHERE ENAME='KING';
+WHERE SAL<(SELECT SAL
+           *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,SAL
+  2  FROM EMP
+  3  WHERE SAL<(SELECT SAL
+  4             FROM EMP
+  5*            WHERE ENAME='KING')
+SQL> /
+
+ENAME             SAL                                                           
+---------- ----------                                                           
+SMITH             800                                                           
+ALLEN            1600                                                           
+WARD             1250                                                           
+JONES            2975                                                           
+MARTIN           1250                                                           
+BLAKE            2850                                                           
+CLARK            2450                                                           
+SCOTT            3000                                                           
+TURNER           1500                                                           
+ADAMS            1100                                                           
+JAMES             950                                                           
+
+ENAME             SAL                                                           
+---------- ----------                                                           
+FORD             3000                                                           
+MILLER           1300                                                           
+
+13 rows selected.
+
+SQL> SELECT ENAME,DEPTNO
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE ENAME='JONES');
+
+ENAME          DEPTNO                                                           
+---------- ----------                                                           
+SMITH              20                                                           
+JONES              20                                                           
+SCOTT              20                                                           
+ADAMS              20                                                           
+FORD               20                                                           
+
+SQL> SELECT ENAME ,JOB
+  2  FROM EMP
+  3  WHERE JOB=(SELECT JOB
+  4             FROM EMP
+  5             WHERE ENAME='JAMES');
+
+ENAME      JOB                                                                  
+---------- ---------                                                            
+SMITH      CLERK                                                                
+ADAMS      CLERK                                                                
+JAMES      CLERK                                                                
+MILLER     CLERK                                                                
+
+SQL> SELECT EMPNO,ENAME
+  2  FROM EMP
+  3  WHERE SAL*12 >(SELECT SAL*12
+  4                 FROM EMP
+  5                 WHERE ENAME='WARDS');
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT EMPNO,ENAME,SAL*12
+  2  FROM EMP
+  3  WHERE SAL >(SELECT SAL
+  4                 FROM EMP
+  5*                WHERE ENAME='WARDS')
+SQL> /
+
+no rows selected
+
+SQL> SELECT ENAME,HIREDATE
+  2  FROM EMP
+  3  WHERE COUNT(*)<(SELECT HIREDATE
+  4                  FROM EMP
+  5                  WHERE ENAME='SCOTT');
+WHERE COUNT(*)<(SELECT HIREDATE
+      *
+ERROR at line 3:
+ORA-00934: group function is not allowed here 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,HIREDATE
+  2  FROM EMP
+  3  WHERE COUNT(*)<(SELECT COUNT(*)
+  4                  FROM EMP
+  5*                 WHERE ENAME='SCOTT')
+SQL> /
+WHERE COUNT(*)<(SELECT COUNT(*)
+      *
+ERROR at line 3:
+ORA-00934: group function is not allowed here 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME,HIREDATE
+  2  FROM EMP
+  3  WHERE HIREDATE<(SELECT HIREDATE
+  4                  FROM EMP
+  5*                 WHERE ENAME='SCOTT')
+SQL> /
+
+ENAME      HIREDATE                                                             
+---------- ---------                                                            
+SMITH      17-DEC-80                                                            
+ALLEN      20-FEB-81                                                            
+WARD       22-FEB-81                                                            
+JONES      02-APR-81                                                            
+MARTIN     28-SEP-81                                                            
+BLAKE      01-MAY-81                                                            
+CLARK      09-JUN-81                                                            
+KING       17-NOV-81                                                            
+TURNER     08-SEP-81                                                            
+JAMES      03-DEC-81                                                            
+FORD       03-DEC-81                                                            
+
+ENAME      HIREDATE                                                             
+---------- ---------                                                            
+MILLER     23-JAN-82                                                            
+
+12 rows selected.
+
+SQL> SELECT ENAME,HIREDATE
+  2  FROM EMP
+  3  WHERE HIREDATE>(SELECT HIREDATE
+  4                  FROM EMP
+  5                  WHERE JOB='PRESIDENT');
+
+ENAME      HIREDATE                                                             
+---------- ---------                                                            
+SCOTT      19-APR-87                                                            
+ADAMS      23-MAY-87                                                            
+JAMES      03-DEC-81                                                            
+FORD       03-DEC-81                                                            
+MILLER     23-JAN-82                                                            
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM DEPT
+  5                WHERE LOC='NEW YORK');
+
+ENAME                                                                           
+----------                                                                      
+CLARK                                                                           
+KING                                                                            
+MILLER                                                                          
+
+SQL> SELECT DNAME,LOC
+  2  FROM EMP
+  3  WHERE LOC && DNAME=(SELECT LOC
+  4                      FROM DEPT
+  5                      WHERE ENAME='MILLER');
+Enter value for dname: MILLER
+old   3: WHERE LOC && DNAME=(SELECT LOC
+new   3: WHERE LOC MILLER=(SELECT LOC
+WHERE LOC MILLER=(SELECT LOC
+          *
+ERROR at line 3:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,LOC
+  2  FROM EMP
+  3  WHERE LOC=(SELECT LOC
+  4                      FROM DEPT
+  5*                     WHERE ENAME='MILLER')
+SQL> /
+WHERE LOC=(SELECT LOC
+      *
+ERROR at line 3:
+ORA-00904: "LOC": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,LOC
+  2  FROM EMP
+  3  WHERE LOC=(SELECT DEPTNO
+  4                      FROM DEPT
+  5*                     WHERE ENAME='MILLER')
+SQL> /
+WHERE LOC=(SELECT DEPTNO
+      *
+ERROR at line 3:
+ORA-00904: "LOC": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,LOC
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                      FROM DEPT
+  5*                     WHERE ENAME='MILLER')
+SQL> /
+SELECT DNAME,LOC
+             *
+ERROR at line 1:
+ORA-00904: "LOC": invalid identifier 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME,LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                      FROM EMP
+  5*                     WHERE ENAME='MILLER')
+SQL> /
+
+DNAME          LOC                                                              
+-------------- -------------                                                    
+ACCOUNTING     NEW YORK                                                         
+
+SQL> SELECT LOC
+  2  FROM DEPT
+  3  WHERE LOC=(SELECT LOC
+  4             FROM EMP
+  5             WHERE ENAME='ADAMS');
+
+LOC                                                                             
+-------------                                                                   
+NEW YORK                                                                        
+DALLAS                                                                          
+CHICAGO                                                                         
+BOSTON                                                                          
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4             FROM EMP
+  5*            WHERE ENAME='ADAMS')
+SQL> /
+
+LOC                                                                             
+-------------                                                                   
+DALLAS                                                                          
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM DEPT
+  5                WHERE LOC='CHICAGO');
+
+ENAME                                                                           
+----------                                                                      
+ALLEN                                                                           
+WARD                                                                            
+MARTIN                                                                          
+BLAKE                                                                           
+TURNER                                                                          
+JAMES                                                                           
+
+6 rows selected.
+
+SQL>  SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL>(SELECT SAL
+  4             FROM EMP
+  5             WHERE ENAME='SMITH' AND ENAME='BLAKE');
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1   SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL>(SELECT SAL
+  4             FROM EMP
+  5*            WHERE ENAME IN'SMITH','BLAKE')
+SQL> /
+           WHERE ENAME IN'SMITH','BLAKE')
+                                *
+ERROR at line 5:
+ORA-00907: missing right parenthesis 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1   SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL>(SELECT SAL
+  4             FROM EMP
+  5*            WHERE ENAME IN'SMITH'AND'BLAKE')
+SQL> /
+           WHERE ENAME IN'SMITH'AND'BLAKE')
+                                          *
+ERROR at line 5:
+ORA-00920: invalid relational operator 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1   SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL>(SELECT SAL
+  4             FROM EMP
+  5*            WHERE ENAME IN('SMITH','BLAKE'))
+SQL> /
+WHERE SAL>(SELECT SAL
+           *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> spool off

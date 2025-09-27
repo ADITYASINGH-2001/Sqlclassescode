@@ -1,0 +1,140 @@
+SQL> CREATE TABLE STUDENT
+  2  (SID NUMBER(4) PRIMARY KEY CHECK(LENGTH(SID)=4) CHECK(SID>0),
+  3  SNAME VARCHAR(20) NOT NULL,
+  4  AGE NUMBER(2),
+  5  SUBNAME VARCHAR(10),
+  6  PHONE_NO NUMBER(10) CHECK(PHONE_NO>0) CHECK(LENGTH(PHONE_NO)=10)
+  7  );
+
+Table created.
+
+SQL> DESC STUDENT
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                       NOT NULL NUMBER(4)
+ SNAME                                     NOT NULL VARCHAR2(20)
+ AGE                                                NUMBER(2)
+ SUBNAME                                            VARCHAR2(10)
+ PHONE_NO                                           NUMBER(10)
+
+SQL>  RENAME STUDENT TO STUD;
+
+Table renamed.
+
+SQL> ALTER TABLE STUD
+  2  ADD EMAIL VARCHAR2(30) UNIQUE;
+
+Table altered.
+
+SQL> DESC STUD
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                       NOT NULL NUMBER(4)
+ SNAME                                     NOT NULL VARCHAR2(20)
+ AGE                                                NUMBER(2)
+ SUBNAME                                            VARCHAR2(10)
+ PHONE_NO                                           NUMBER(10)
+ EMAIL                                              VARCHAR2(30)
+
+SQL> ALTER TABLE STUD
+  2  RENAME COLUMN EMAIL TO MAIL_ID;
+
+Table altered.
+
+SQL> DESC STUD
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                       NOT NULL NUMBER(4)
+ SNAME                                     NOT NULL VARCHAR2(20)
+ AGE                                                NUMBER(2)
+ SUBNAME                                            VARCHAR2(10)
+ PHONE_NO                                           NUMBER(10)
+ MAIL_ID                                            VARCHAR2(30)
+
+SQL> ALTER TABLE STUD
+  2  DROP COLUMN MAIL_ID;
+
+Table altered.
+
+SQL> DESC STUD
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                       NOT NULL NUMBER(4)
+ SNAME                                     NOT NULL VARCHAR2(20)
+ AGE                                                NUMBER(2)
+ SUBNAME                                            VARCHAR2(10)
+ PHONE_NO                                           NUMBER(10)
+
+SQL>  ALTER TABLE STUD
+  2  MODIFY SNAME VARCHAR(30);
+
+Table altered.
+
+SQL> DESC STUD;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                       NOT NULL NUMBER(4)
+ SNAME                                     NOT NULL VARCHAR2(30)
+ AGE                                                NUMBER(2)
+ SUBNAME                                            VARCHAR2(10)
+ PHONE_NO                                           NUMBER(10)
+
+SQL> ALTER TABLE STUD
+  2  MODIFY SUBNAME VARCHAR(20) NOT NULL;
+
+Table altered.
+
+SQL> DESC STUD;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                       NOT NULL NUMBER(4)
+ SNAME                                     NOT NULL VARCHAR2(30)
+ AGE                                                NUMBER(2)
+ SUBNAME                                   NOT NULL VARCHAR2(20)
+ PHONE_NO                                           NUMBER(10)
+
+SQL>  ALTER TABLE STUD
+  2  ADD CONSTRAINTS UK_PHONE_NO UNIQUE(PHONE_NO);
+
+Table altered.
+
+SQL> DESC STUD;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                       NOT NULL NUMBER(4)
+ SNAME                                     NOT NULL VARCHAR2(30)
+ AGE                                                NUMBER(2)
+ SUBNAME                                   NOT NULL VARCHAR2(20)
+ PHONE_NO                                           NUMBER(10)
+
+SQL> CREATE TABLE BOOK
+  2  (
+  3  BID NUMBER(4) PRIMARY KEY CHECK(BID>0) CHECK(LENGTH(BID)=4),
+  4  BNAME VARCHAR(20),
+  5  PRICE NUMBER(4),
+  6  SID NUMBER(4));
+
+Table created.
+
+SQL> ALTER TABLE BOOK
+  2  ADD CONSTRAINTS FK_SID FOREIGN KEY(SID) REFERENCES STUD(SID);
+
+Table altered.
+
+SQL> CREATE TABLE TRAINER
+  2  (
+  3  TID NUMBER(4) PRIMARY KEY,
+  4  TNAME VARCHAR(20),
+  5  SUB VARCHAR(10),
+  6  BID NUMBER(4),
+  7  CONSTRAINTS FK_BID FOREIGN KEY(BID) REFERENCES BOOK(BID)
+  8  );
+
+Table created.
+
+SQL>  ALTER TABLE TRAINER
+  2  DROP CONSTRAINTS FK_BID;
+
+Table altered.
+
+SQL> spool off

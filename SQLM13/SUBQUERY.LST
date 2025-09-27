@@ -1,0 +1,492 @@
+SQL> --q1--
+SQL> select max(sal)
+  2  from EMP
+  3  WHERE MAX(SAL)>(SELECT SAL
+  4                  FROM EMP
+  5                      );
+WHERE MAX(SAL)>(SELECT SAL
+      *
+ERROR at line 3:
+ORA-00934: group function is not allowed here 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  select max(sal)
+  2  from EMP
+  3  WHERE SAL>(SELECT MAX(SAL)
+  4*                 FROM EMP)
+SQL> /
+
+  MAX(SAL)                                                                      
+----------                                                                      
+                                                                                
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  select max(sal)
+  2  from EMP
+  3  WHERE SAL<(SELECT MAX(SAL)
+  4*                 FROM EMP)
+SQL> /
+
+  MAX(SAL)                                                                      
+----------                                                                      
+      3000                                                                      
+
+SQL> SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL<(SELECT MAX(SAL)
+  4             FROM EMP
+  5             WHERE SAL<(SELECT MAX(SAL)
+  6                        FROM EMP
+  7                               ));
+
+  MAX(SAL)                                                                      
+----------                                                                      
+      2975                                                                      
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL<(SELECT MAX(SAL)
+  4             FROM EMP
+  5             WHERE SAL<(SELECT MAX(SAL)
+  6*                       FROM EMP))
+SQL> SELECT MIN(SAL)
+  2  FROM EMP
+  3  WHERE SAL>(SELECT MIN(SAL)
+  4             FROM EMP
+  5             WHERE SAL>(SELECT MIN(SAL)
+  6                        FROM EMP))
+  7  ;
+
+  MIN(SAL)                                                                      
+----------                                                                      
+      1100                                                                      
+
+SQL> SELECT MAX(SAL),ENAME
+  2  FROM EMP
+  3  WHERE SAL<(SELECT MAX(SAL)
+  4             FROM EMP);
+SELECT MAX(SAL),ENAME
+                *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL),ENAME
+  2  FROM EMP
+  3  WHERE SAL<ALL(SELECT MAX(SAL)
+  4*            FROM EMP)
+SQL> /
+SELECT MAX(SAL),ENAME
+                *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL),ENAME
+  2  FROM EMP
+  3  WHERE SAL<ANY(SELECT MAX(SAL)
+  4*            FROM EMP)
+SQL> /
+SELECT MAX(SAL),ENAME
+                *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL),ENAME
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT MAX(SAL)
+  4*            FROM EMP)
+SQL> /
+SELECT MAX(SAL),ENAME
+                *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL IN (SELECT MAX(SAL)
+  4             FROM EMP
+  5  	   WHERE ENAME IN (SELECT ENAME
+  6* 			   FROM EMP))
+SQL> /
+
+  MAX(SAL)                                                                      
+----------                                                                      
+      5000                                                                      
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL)
+  2  FROM EMP
+  3  WHERE SAL < (SELECT MAX(SAL)
+  4             FROM EMP
+  5  	   WHERE ENAME IN (SELECT ENAME
+  6* 			   FROM EMP))
+SQL> /
+
+  MAX(SAL)                                                                      
+----------                                                                      
+      3000                                                                      
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT MAX(SAL),ENAME
+  2  FROM EMP
+  3  WHERE SAL < (SELECT MAX(SAL)
+  4             FROM EMP
+  5  	   WHERE ENAME IN (SELECT ENAME
+  6* 			   FROM EMP))
+SQL> /
+SELECT MAX(SAL),ENAME
+                *
+ERROR at line 1:
+ORA-00937: not a single-group group function 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL < (SELECT MAX(SAL)
+  4             FROM EMP
+  5  	   WHERE ENAME IN (SELECT ENAME
+  6* 			   FROM EMP))
+SQL> /
+
+ENAME                                                                           
+----------                                                                      
+SMITH                                                                           
+ALLEN                                                                           
+WARD                                                                            
+JONES                                                                           
+MARTIN                                                                          
+BLAKE                                                                           
+CLARK                                                                           
+SCOTT                                                                           
+TURNER                                                                          
+ADAMS                                                                           
+JAMES                                                                           
+
+ENAME                                                                           
+----------                                                                      
+FORD                                                                            
+MILLER                                                                          
+
+13 rows selected.
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE SAL = (SELECT MAX(SAL)
+  4             FROM EMP
+  5  	   WHERE SAL < (SELECT MAX(SAL)
+  6* 			   FROM EMP))
+SQL> /
+
+ENAME                                                                           
+----------                                                                      
+SCOTT                                                                           
+FORD                                                                            
+
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO =(SELECT DEPTNO,MAX(SAL)
+  4                 FROM EMP
+  5                 WHERE SAL<(SELECT MAX(SAL)
+  6                            FROM EMP
+  7                            WHERE SAL<(SELECT MAX(SAL)
+  8                                       FROM EMP)));
+WHERE DEPTNO =(SELECT DEPTNO,MAX(SAL)
+               *
+ERROR at line 3:
+ORA-00913: too many values 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO =(SELECT MAX(SAL)
+  4                 FROM EMP
+  5                 WHERE SAL<(SELECT MAX(SAL)
+  6                            FROM EMP
+  7                            WHERE SAL<(SELECT MAX(SAL)
+  8*                                      FROM EMP)))
+SQL> /
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO =(SELECT DEPTNO
+  4                 FROM EMP
+  5                 WHERE SAL<(SELECT MAX(SAL)
+  6                            FROM EMP
+  7                            WHERE SAL<(SELECT MAX(SAL)
+  8*                                      FROM EMP)))
+SQL> /
+WHERE DEPTNO =(SELECT DEPTNO
+               *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO =(SELECT DEPTNO
+  4                 FROM EMP
+  5                 WHERE SAL<(SELECT MIN(SAL)
+  6                            FROM EMP
+  7                            WHERE SAL<(SELECT MIN(SAL)
+  8*                                      FROM EMP)))
+SQL> /
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO =(SELECT DEPTNO
+  4                 FROM EMP
+  5                 WHERE SAL=(SELECT MIN(SAL)
+  6                            FROM EMP
+  7                            WHERE SAL>(SELECT MIN(SAL)
+  8                            FROM EMP
+  9                            WHERE SAL>(SELECT MIN(SAL)
+ 10*                                      FROM EMP)))
+SQL> /
+WHERE DEPTNO =(SELECT DEPTNO
+               *
+ERROR at line 3:
+ORA-00921: unexpected end of SQL command 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO =(SELECT DEPTNO
+  4                 FROM EMP
+  5                 WHERE SAL=(SELECT MIN(SAL)
+  6                            FROM EMP
+  7                            WHERE SAL>(SELECT MIN(SAL)
+  8                            FROM EMP
+  9                            WHERE SAL>(SELECT MIN(SAL)
+ 10*                                      FROM EMP))))
+SQL> /
+
+DNAME                                                                           
+--------------                                                                  
+RESEARCH                                                                        
+
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE SAL<(SELECT MAX(SAL)
+  6                            FROM EMP));
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE SAL>(SELECT MAX(SAL)
+  6*                           FROM EMP))
+SQL> /
+
+no rows selected
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE SAL=(SELECT MAX(SAL)
+  6*                           FROM EMP))
+SQL> /
+
+DNAME                                                                           
+--------------                                                                  
+ACCOUNTING                                                                      
+
+SQL> SELECT MGR
+  2  FROM EMP
+  3  
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE MGR=(SELECT MGR
+  4             FROM EMP
+  5* 	   WHERE ENAME='ALLEN')
+SQL> /
+
+ENAME                                                                           
+----------                                                                      
+ALLEN                                                                           
+WARD                                                                            
+MARTIN                                                                          
+TURNER                                                                          
+JAMES                                                                           
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT ENAME
+  2  FROM EMP
+  3  WHERE EMPNO=(SELECT MGR
+  4             FROM EMP
+  5* 	   WHERE ENAME='ALLEN')
+SQL> /
+
+ENAME                                                                           
+----------                                                                      
+BLAKE                                                                           
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE EMPNO=(SELECT MGR
+  4               FROM EMP
+  5               WHERE ENAME='JONES');
+
+ENAME                                                                           
+----------                                                                      
+KING                                                                            
+
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE EMPNO=(SELECT MGR
+  6                             FROM EMP
+  7                             WHERE ENAME='BLAKE'));
+
+DNAME                                                                           
+--------------                                                                  
+ACCOUNTING                                                                      
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE EMPNO=(SELECT MGR
+  4               FROM EMP
+  5               WHERE EMPNO=(SELECT MGR
+  6                            FROM EMP
+  7                            WHERE ENAME='ALLEN'));
+
+ENAME                                                                           
+----------                                                                      
+KING                                                                            
+
+SQL> SELECT ENAME
+  2  FROM EMP
+  3  WHERE MGR=(SELECT EMPNO
+  4             FROM EMP
+  5             WHERE ENAME='JONES');
+
+ENAME                                                                           
+----------                                                                      
+SCOTT                                                                           
+FORD                                                                            
+
+SQL> SELECT DNAME,LOC
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE EMPNO=(SELECT MGR
+  6                             FROM EMP
+  7                              WHERE EMPNO=(SELECT MGR
+  8                              FROM EMP
+  9                              WHERE ENAME='SCOTT')));
+
+DNAME          LOC                                                              
+-------------- -------------                                                    
+ACCOUNTING     NEW YORK                                                         
+
+SQL> SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO=(SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE MGR=(SELECT EMPNO
+  6                           FROM EMP
+  7                           WHERE ENAME='BLAKE'));
+WHERE DEPTNO=(SELECT DEPTNO
+              *
+ERROR at line 3:
+ORA-01427: single-row subquery returns more than one row 
+
+
+SQL> ED
+Wrote file afiedt.buf
+
+  1  SELECT DNAME
+  2  FROM DEPT
+  3  WHERE DEPTNO IN (SELECT DEPTNO
+  4                FROM EMP
+  5                WHERE MGR=(SELECT EMPNO
+  6                           FROM EMP
+  7*                          WHERE ENAME='BLAKE'))
+SQL> /
+
+DNAME                                                                           
+--------------                                                                  
+SALES                                                                           
+
+SQL> SELECT SAL
+  2  FROM EMP
+  3  WHERE EMPNO=(SELECT MGR
+  4               FROM EMP
+  5               WHERE ENAME='ALLEN');
+
+       SAL                                                                      
+----------                                                                      
+      2850                                                                      
+
+SQL> spool off
